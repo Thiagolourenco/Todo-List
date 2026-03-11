@@ -6,3 +6,25 @@
 //
 
 import Foundation
+import SwiftUI
+
+@Observable
+class TodoListViewModel {
+    var items: [TodoListModel]
+    
+    init() {
+        self.items = [
+            TodoListModel(name: "Buy groceries", isCompleted: true),
+            TodoListModel(name: "Read a book"),
+            TodoListModel(name: "Go for a walk")
+        ]
+    }
+    
+    func removeItem(indexSet: IndexSet) {
+        items.remove(atOffsets: indexSet)
+    }
+    
+    func onMoveItem(indexSet: IndexSet, item: Int) {
+        items.move(fromOffsets: indexSet, toOffset: item)
+    }
+}

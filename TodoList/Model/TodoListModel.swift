@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+struct TodoListModel: Identifiable {
+    let id: UUID = UUID()
+    let name: String
+    let isCompleted: Bool
+    
+    init(name: String, isCompleted: Bool = false) {
+        self.name = name
+        self.isCompleted = isCompleted
+        
+    }
+}
+

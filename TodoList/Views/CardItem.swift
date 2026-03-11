@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct CardItem: View {
+    let item: TodoListModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Image(systemName: "checkmark.circle")
+                .foregroundStyle(item.isCompleted ? .green : .gray)
+            Text(item.name)
+                .font(.headline)
+        }
     }
 }
 
 #Preview {
-    CardItem()
+    let item1 = TodoListModel(name: "Fazer compras", isCompleted: false)
+    CardItem(item: item1)
 }
