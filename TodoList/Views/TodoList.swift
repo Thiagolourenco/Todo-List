@@ -8,34 +8,69 @@
 import SwiftUI
 
 struct TodoList: View {
-//    @State var items: [TodoListModel] = [
-//        TodoListModel(name: "Buy groceries", isCompleted: true),
-//        TodoListModel(name: "Read a book"),
-//        TodoListModel(name: "Go for a walk")
-//    ]
-    @Environment(TodoListViewModel.self) var viewModel: TodoListViewModel
+    @Environment(TodoListViewModel.self) private var viewModel
     
     var body: some View {
         NavigationStack {
             VStack {
-                List {
-                    ForEach(viewModel.items) { item in
-                        CardItem(item: item)
+                if viewModel.items.isEmpty {
+                        VStack(alignment: .center) {
+                            Text("Ops, não temos nenhuma item")
+                                .font(.title2)
+                            Image(systemName: "exclamationmark.circle")
+                                .font(.largeTitle)
+                                .padding(.top)
+                            
+                            NavigationLink {
+                                AddItem()
+                            } label: {
+                                Text("New Item")
+                                    .padding()
+                                    .foregroundStyle(.white)
+                                    .bold()
+                                    .background(.blue)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    .padding()
+                            }
+
+                           
+                                
+                        }
+                        .frame(height: 200)
+                        .padding()
+                        .background(.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                
+                
+                } else {
+                    List {
+                        ForEach(viewModel.items) { item in
+                            CardItem(item: item)
+                                .onTapGesture {
+                                    withAnimation(.spring) {
+                                        viewModel.updateItem(item: item)
+                                    }
+                                }
+                        }
+                        .onDelete(perform: viewModel.removeItem)
+                        .onMove(perform: viewModel.onMoveItem)
                     }
-                    .onDelete(perform: viewModel.removeItem)
-                    .onMove(perform: viewModel.onMoveItem)
+                    .listStyle(.sidebar)
+                    Spacer()
                 }
-                .listStyle(.sidebar)
-                Spacer()
+               
             }
             .navigationTitle("Todo List")
             .toolbarRole(.navigationStack)
             .toolbar {
                 ToolbarItem {
-                    Image(systemName: "plus")
+                    NavigationLink {
+                        AddItem()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
                 ToolbarItem(placement: .topBarLeading) {
-//                    Image(systemName: "pencil")
                     EditButton()
                     
                 }

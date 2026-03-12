@@ -13,10 +13,10 @@ struct TodoListApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
+//            NavigationStack {
                 TodoList()
                     .environment(viewModel)
-            }
+//            }
            
         }
     }

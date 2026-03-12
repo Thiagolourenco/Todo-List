@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AddItem: View {
     @State var inputValue: String = ""
+    @Environment(TodoListViewModel.self) private var viewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -28,16 +30,24 @@ struct AddItem: View {
                 .background(.black.opacity(0.7))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.horizontal)
+                .onTapGesture {
+                    viewModel.addNewItem(item: inputValue)
+                    inputValue = ""
+                    dismiss()
+                    
+                }
             
         }
-        .navigationBarBackButtonHidden()
         .navigationTitle("Add new Item")
     }
 }
 
 #Preview {
+    @Previewable var viewModel = TodoListViewModel()
+
     NavigationStack {
         AddItem()
+            .environment(viewModel)
 
     }
 }

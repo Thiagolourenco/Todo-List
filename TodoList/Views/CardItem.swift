@@ -14,6 +14,9 @@ struct CardItem: View {
         HStack {
             Image(systemName: "checkmark.circle")
                 .foregroundStyle(item.isCompleted ? .green : .gray)
+                .onTapGesture {
+                    
+                }
             Text(item.name)
                 .font(.headline)
         }
